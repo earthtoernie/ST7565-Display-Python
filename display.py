@@ -17,6 +17,20 @@ LCD_SI = 17
 
 def main():
     io_init()
+    GPIO.output(LCD_CS, True)
+    # GPIO.output(LCD_RST, False)
+    # GPIO.output(LCD_A0, False)
+    # GPIO.output(LCD_CLK, False)
+    # GPIO.output(LCD_SI, False)
+
+    # GPIO.output(LCD_CS, True)
+    # GPIO.output(LCD_CS, False)
+    # GPIO.output(LCD_CS, True)
+    # GPIO.output(LCD_CS, False)
+    # GPIO.output(LCD_CS, True)
+    # GPIO.output(LCD_CS, False)
+    # GPIO.output(LCD_RST, False)
+    # GPIO.output(LCD_RST, True)
     lcd_init()
     lcd_ascii168_string(0, 0, "abcdefghijklmnop")
     lcd_ascii168_string(0, 2, "This is a demo.  ")
@@ -31,6 +45,7 @@ def io_init():
     GPIO.setup(LCD_RST, GPIO.OUT)
     GPIO.setup(LCD_A0, GPIO.OUT)
     GPIO.setup(LCD_CLK, GPIO.OUT)
+    GPIO.output(LCD_CLK, False)
     GPIO.setup(LCD_SI, GPIO.OUT)
 
 
@@ -121,13 +136,14 @@ def lcd_set_page(page, column):
 
 def lcd_tranfer_data(value, A0):
     GPIO.output(LCD_CS, False)
-    GPIO.output(LCD_CLK, True)
+    GPIO.output(LCD_CLK, False)
     if (A0):
         GPIO.output(LCD_A0, True)
     else:
         GPIO.output(LCD_A0, False)
     lcd_byte(value)
     GPIO.output(LCD_CS, True)
+    GPIO.output(LCD_CLK, False)
 
 
 def lcd_byte(bits):
@@ -251,3 +267,4 @@ try:
         time.sleep(1.0)
 except:
     GPIO.cleanup()
+
